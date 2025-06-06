@@ -305,25 +305,26 @@ function formatDate(dateString) {
 // 權限檢查
 async function checkUserRole(userEmail) {
     try {
-        // 預設管理員帳號
-        if (userEmail === 'shihwatson@gmail.com') { // 請替換為您的管理員 Email
-            return 'admin';
-        }
-
-        // 檢查使用者是否存在於資料庫中
-        const userEmailKey = userEmail.replace(/\./g, ',');
+        const userEmailKey = userEmail.replace(/\./g, ','); // Firebase keys cannot contain '.'
         const userRef = window.firebase.ref(window.firebase.db, `users/${userEmailKey}`);
         const snapshot = await window.firebase.get(userRef);
 
         if (snapshot.exists()) {
             const userData = snapshot.val();
-            return userData.role || 'student';
+
+            if (userData && userData.role) {
+                return userData.role;
+            }
+
+            if (userData && userData.studentId) {
+                return 'student';
+            }
+            return 'new';
         }
 
-        return 'new'; // 新使用者
+        return 'new'; // 新使用者或資料庫中無此使用者記錄
     } catch (error) {
         console.error('檢查使用者權限錯誤:', error);
-        // 如果無法檢查權限，假設是新使用者
         return 'new';
     }
 }
@@ -722,7 +723,7 @@ function renderActivitiesList() {
                             data-activity-id="${activity.id}" title="管理參與者">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M17 20h5v-2a3 3 0 00-5.196-2.121M12 3v4a3 3 0 106 0V3m3 0a2 2 0 01-2 2H9a2 2 0 01-2-2m6 0V1M9 21H3v-2a3 3 0 015.196-2.121M15 21v-2a3 3 0 00-3-3H9a3 3 0 00-3 3v2z"></path>
+                                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
                     </button>
                     <button class="edit-activity-btn text-blue-400 hover:text-blue-300 p-1 rounded hover:bg-blue-400/10 transition-colors" 
@@ -1257,8 +1258,7 @@ document.addEventListener('firebaseReady', () => {
             }
 
             hideModal('activityModal', 'activityBox');
-            // renderActivitiesList(); // 改為呼叫 filterActivities
-            filterActivities(); // 確保篩選和排序被重新應用
+            filterActivities();
 
         } catch (error) {
             console.error('儲存活動錯誤:', error);
@@ -1294,7 +1294,7 @@ document.addEventListener('firebaseReady', () => {
 
             // 檢查該學號是否已經綁定其他Google帳號
             if (existingStudent.googleAccount && existingStudent.googleAccount !== currentUser.email) {
-                showAlertModal('此學號已綁定其他Google帳號，請聯繫管理員');
+                showAlertModal('此學號已綁定其他 Google 帳號，請聯繫管理員');
                 return;
             }
 
@@ -1984,6 +1984,7 @@ async function addAdmissionYear(year) {
         admissionYears.sort((a, b) => parseInt(b.year) - parseInt(a.year)); // 重新排序
         updateYearSelects();
         showAlertModal(`入學年 ${year} 已新增`);
+
         hideModal('yearModal', 'yearBox');
         document.getElementById('yearForm').reset();
     } catch (error) {
