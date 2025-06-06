@@ -1,0 +1,785 @@
+/* 全域樣式調整 */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 防止內容跳動 */
+.content-container {
+    min-height: calc(100vh - 64px);
+    transition: all 0.3s ease;
+}
+
+/* 響應式設計調整 */
+@media (max-width: 768px) {
+    .activity-card {
+        padding: 12px;
+    }
+
+    .activity-card .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .user-profile span {
+        display: none !important;
+    }
+
+    .tab-button {
+        padding: 6px 12px;
+        font-size: 0.875rem;
+    }
+
+    .content-container {
+        min-height: calc(100vh - 120px);
+    }
+
+    /* 調整按鈕布局 */
+    .activity-actions {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    .activity-actions button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* 學生管理頁面響應式 */
+    .student-management-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    .student-filter-controls {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .student-action-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 640px) {
+    .bg-dark-50 .flex {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .bg-dark-50 .flex>div:first-child {
+        order: 2;
+    }
+
+    .bg-dark-50 .flex>div:last-child {
+        order: 1;
+    }
+
+    /* Modal 調整 */
+    .modal-content {
+        margin: 12px;
+        max-height: calc(100vh - 24px);
+    }
+}
+
+/* 表格響應式 */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive table {
+    min-width: 600px;
+}
+
+/* 檔案上傳區域改進 */
+.file-upload-zone {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.file-upload-zone.success {
+    border-color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.file-upload-zone.error {
+    border-color: #EF4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.file-upload-zone:hover {
+    transform: translateY(-1px);
+}
+
+/* 載入狀態 */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #3B82F6;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 按鈕狀態改進 */
+button {
+    transition: all 0.2s ease;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+button:disabled:hover {
+    background-color: inherit !important;
+    transform: none !important;
+}
+
+button:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+
+button:not(:disabled):active {
+    transform: translateY(0);
+}
+
+/* 表單改進 */
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+input,
+select,
+textarea {
+    transition: all 0.2s ease;
+}
+
+/* 卡片懸停效果改進 */
+.activity-card,
+.student-card,
+.user-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-card:hover,
+.student-card:hover,
+.user-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border-color: #525252;
+}
+
+.activity-card::before,
+.student-card::before,
+.user-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.5s ease;
+}
+
+.activity-card:hover::before,
+.student-card:hover::before,
+.user-card:hover::before {
+    left: 100%;
+}
+
+/* 狀態指示器 */
+.status-indicator {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.status-online::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background: #10B981;
+    border-radius: 50%;
+    border: 2px solid #1E1E1E;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* 徽章樣式 */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.badge:hover {
+    transform: scale(1.05);
+}
+
+.badge-admin {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-student {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3B82F6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge-public {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-private {
+    background: rgba(239, 68, 68, 0.2);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* 統計卡片改進 */
+.stats-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(59, 130, 246, 0.3);
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    pointer-events: none;
+}
+
+.stats-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: rotate 4s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 進度條 */
+.progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient(-45deg,
+            rgba(255, 255, 255, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent);
+    background-size: 1rem 1rem;
+    animation: move 1s linear infinite;
+}
+
+@keyframes move {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 1rem 0;
+    }
+}
+
+/* 提示文字 */
+.tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1F2937;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 112%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1F2937;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tooltip:hover::after,
+.tooltip:hover::before {
+    opacity: 1;
+}
+
+/* 空狀態改進 */
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: #6B7280;
+    animation: fadeIn 0.5s ease;
+}
+
+.empty-state svg {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    opacity: 0.5;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* 搜尋框 */
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    padding-left: 40px;
+}
+
+.search-box::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 表格排序指示器 */
+.sortable-header {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 20px;
+}
+
+.sortable-header:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.sortable-header::after {
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid #6B7280;
+    opacity: 0.5;
+}
+
+.sortable-header.asc::after {
+    border-bottom: none;
+    border-top: 4px solid #3B82F6;
+    opacity: 1;
+}
+
+.sortable-header.desc::after {
+    border-bottom: 4px solid #3B82F6;
+    opacity: 1;
+}
+
+/* 批量操作區域 */
+#activityBulkActions,
+#studentBulkActions {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 複選框樣式 */
+input[type="checkbox"] {
+    accent-color: #3B82F6;
+}
+
+/* 篩選控制項容器 */
+.filter-controls {
+    background: rgba(45, 45, 45, 0.5);
+    border: 1px solid #404040;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .search-box::before {
+        left: 8px;
+        width: 14px;
+        height: 14px;
+    }
+
+    .search-box input {
+        padding-left: 32px;
+        font-size: 14px;
+    }
+
+    #activityBulkActions,
+    #studentBulkActions {
+        padding: 12px;
+    }
+
+    #activityBulkActions .flex,
+    #studentBulkActions .flex {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    #activityBulkActions .flex>div:last-child,
+    #studentBulkActions .flex>div:last-child {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* 空狀態樣式 */
+.empty-state-table {
+    padding: 48px 24px;
+    text-align: center;
+    color: #6B7280;
+}
+
+.empty-state-table svg {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    opacity: 0.5;
+}
+
+/* 編輯表單改進 */
+.edit-form-field {
+    margin-bottom: 16px;
+}
+
+.unbind-section {
+    border-top: 1px solid #404040;
+    padding-top: 16px;
+    margin-top: 16px;
+}
+
+.google-account-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #2D2D2D;
+    border: 1px solid #404040;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.google-account-display input {
+    background: transparent;
+    border: none;
+    color: #9CA3AF;
+    font-size: 0.875rem;
+    flex: 1;
+}
+
+.google-account-display input:focus {
+    outline: none;
+}
+
+/* 確保表格容器有適當的邊界 */
+.table-container {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* 改進表格邊框 */
+.students-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.students-table th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.students-table th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.students-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+.students-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
+}
+
+/* 表格響應式設計 */
+@media (max-width: 768px) {
+    .students-table {
+        font-size: 0.875rem;
+    }
+
+    .students-table th,
+    .students-table td {
+        padding: 8px 12px;
+    }
+
+    .students-table th:nth-child(5),
+    .students-table td:nth-child(5) {
+        display: none;
+        /* 在小螢幕隱藏Google帳號欄位 */
+    }
+
+    .activities-table {
+        font-size: 0.875rem;
+    }
+
+    .activities-table th,
+    .activities-table td {
+        padding: 8px 12px;
+    }
+
+    .activities-table th:nth-child(3),
+    .activities-table td:nth-child(3) {
+        display: none;
+        /* 在小螢幕隱藏地點欄位 */
+    }
+
+    .activities-table th:nth-child(4),
+    .activities-table td:nth-child(4) {
+        display: none;
+        /* 在小螢幕隱藏承辦教師欄位 */
+    }
+}
+
+@media (max-width: 640px) {
+
+    .students-table th:nth-child(4),
+    .students-table td:nth-child(4) {
+        display: none;
+        /* 在更小螢幕隱藏參與場次欄位 */
+    }
+
+    .activities-table th:nth-child(5),
+    .activities-table td:nth-child(5) {
+        display: none;
+        /* 在更小螢幕隱藏參與人數欄位 */
+    }
+}
+
+/* 檔案顯示區域 */
+.selected-file {
+    margin-top: 12px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.selected-file .flex {
+    transition: all 0.2s ease;
+}
+
+.selected-file .flex:hover {
+    background: #404040;
+    border-color: #525252;
+}
+
+.remove-file-btn {
+    transition: all 0.2s ease;
+}
+
+.remove-file-btn:hover {
+    transform: scale(1.1);
+}
+
+/* 檔案上傳區域狀態 */
+.file-upload-zone.has-file {
+    border-color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.file-upload-zone.has-file .text-gray-400 {
+    color: #10B981;
+}
+
+/* 檔案圖示動畫 */
+.selected-file svg {
+    animation: bounce 0.5s ease-out;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-4px);
+    }
+
+    60% {
+        transform: translateY(-2px);
+    }
+}
+
+/* 響應式調整 */
+@media (max-width: 640px) {
+    .selected-file .flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .selected-file .flex>div:first-child {
+        flex: 1;
+        width: 100%;
+    }
+
+    .remove-file-btn {
+        align-self: flex-end;
+    }
+}
