@@ -492,7 +492,7 @@ function updateYearSelects() {
             admissionYears.forEach(yearObj => {
                 const option = document.createElement('option');
                 option.value = yearObj.year;
-                option.textContent = `${yearObj.year}級`;
+                option.textContent = `${yearObj.year} 學年度`;
                 selectElement.appendChild(option);
             });
 
@@ -783,7 +783,7 @@ function renderStudentsList() {
             </td>
             <td class="px-4 py-3 text-gray-200 font-medium">${student.name}</td>
             <td class="px-4 py-3 text-gray-300">${student.id}</td>
-            <td class="px-4 py-3 text-gray-300">${student.admissionYear}級</td>
+            <td class="px-4 py-3 text-gray-300">${student.admissionYear} 學年度</td>
             <td class="px-4 py-3 text-gray-300">${participantCount} 場</td>
             <td class="px-4 py-3 text-gray-300">
                 ${student.googleAccount ?
@@ -1709,7 +1709,7 @@ function downloadStudentsSummary() {
         const yearFilter = document.getElementById('yearFilter').value;
 
         if (!yearFilter) {
-            showAlertModal('請先選擇入學年再下載總表');
+            showAlertModal('請先選擇入學年度再下載總表');
             return;
         }
 
@@ -1717,7 +1717,7 @@ function downloadStudentsSummary() {
         const filteredStudents = students.filter(student => student.admissionYear === yearFilter);
 
         if (filteredStudents.length === 0) {
-            showAlertModal(`${yearFilter}級目前沒有學生資料可下載`);
+            showAlertModal(`${yearFilter} 學年度目前沒有學生資料可下載`);
             return;
         }
 
@@ -1732,7 +1732,7 @@ function downloadStudentsSummary() {
             return {
                 '姓名': student.name,
                 '學號': student.id,
-                '入學年': student.admissionYear + '級',
+                '入學年': student.admissionYear + '學年度',
                 '參與場次': participantCount,
                 '已參與活動': participatedActivities || '無',
                 'Google帳號': student.googleAccount || '未綁定',
@@ -1759,17 +1759,17 @@ function downloadStudentsSummary() {
         ws['!cols'] = columnWidths;
 
         // 將工作表加入工作簿
-        XLSX.utils.book_append_sheet(wb, ws, `${yearFilter}級學生總表`);
+        XLSX.utils.book_append_sheet(wb, ws, `${yearFilter} 學年度學生總表`);
 
         // 產生檔案名稱（包含入學年和日期）
         const now = new Date();
         const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
-        const fileName = `${yearFilter}級學生總表_${dateStr}.xlsx`;
+        const fileName = `${yearFilter} 學年度學生總表_${dateStr}.xlsx`;
 
         // 下載檔案
         XLSX.writeFile(wb, fileName);
 
-        showAlertModal(`已下載${yearFilter}級學生總表，共 ${filteredStudents.length} 筆資料`);
+        showAlertModal(`已下載 ${yearFilter} 學年度學生總表，共 ${filteredStudents.length} 筆資料`);
     } catch (error) {
         console.error('下載學生總表錯誤:', error);
         showAlertModal('下載失敗，請重試');
